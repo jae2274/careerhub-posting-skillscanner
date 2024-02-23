@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package careerhub.scanner.scanner_grpc;
+option go_package = "careerhub/scanner/scanner_grpc";
+
+service Scanner{
+    rpc GetJobPostings(ScanComplete) returns (stream JobPostingInfo);
+	rpc GetSkills(ScanComplete) returns (Skills);
+	rpc SetRequiredSkills(stream SetRequiredSkillsRequest) returns (BoolResponse);
+	rpc SetScanComplete(Skills) returns (BoolResponse);
+}
+
+message ScanComplete{
+	bool isScanComplete = 1;
+}
+
+message JobPostingInfo{
+	string site = 1;
+	string postingId = 2;
+	string title = 3;
+	string qualifications = 4;
+	string preferred = 5;
+	repeated string requiredSkill = 6;
+}
+
+
+message SetRequiredSkillsRequest{
+	string site = 1;
+	string postingId = 2;
+	repeated string requiredSkill = 3;
+}
+
+message Skills{
+	repeated string skillNames = 1;
+}
+
+message BoolResponse{
+	bool success = 1;
+}
