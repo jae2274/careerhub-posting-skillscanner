@@ -11,14 +11,6 @@ import (
 	"github.com/jae2274/goutils/terr"
 )
 
-type App struct {
-	grpcClient scanner_grpc.ScannerGrpcClient
-}
-
-func NewApp(grpcClient scanner_grpc.ScannerGrpcClient) *App {
-	return &App{grpcClient: grpcClient}
-}
-
 type ScanTargetValues struct{}
 
 type ScanTarget = enum.Enum[ScanTargetValues]
@@ -44,6 +36,10 @@ func StartScanForNewSkills(grpcClient scanner_grpc.ScannerGrpcClient, scanTarget
 	skills, err := grpcClient.GetSkills(mainCtx, &scanner_grpc.ScanComplete{IsScanComplete: !isTargetSkill}) //스캔 목적이 스킬이 아닌 경우 이미 완료된 스킬 목록을 가져옴
 	if err != nil {
 		return err
+	}
+
+	if len(skills.SkillNames) == 0 {
+		return nil
 	}
 
 	jobPostingStream, err := grpcClient.GetJobPostings(mainCtx, &scanner_grpc.ScanComplete{IsScanComplete: !isTargetJobPosting}) //스캔 목적이 채용공고가 아닌 경우 이미 완료된 채용공고 목록을 가져옴
@@ -78,15 +74,13 @@ func StartScanForNewSkills(grpcClient scanner_grpc.ScannerGrpcClient, scanTarget
 			}
 		}
 
-		if len(additionalSkills) > 0 {
-			err = sendRequestStream.Send(&scanner_grpc.SetRequiredSkillsRequest{
-				Site:          jobPosting.Site,
-				PostingId:     jobPosting.PostingId,
-				RequiredSkill: additionalSkills,
-			})
-			if err != nil {
-				return err
-			}
+		err = sendRequestStream.Send(&scanner_grpc.SetRequiredSkillsRequest{
+			Site:          jobPosting.Site,
+			PostingId:     jobPosting.PostingId,
+			RequiredSkill: additionalSkills,
+		})
+		if err != nil {
+			return err
 		}
 	}
 
