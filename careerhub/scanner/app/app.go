@@ -3,9 +3,12 @@ package app
 import (
 	"context"
 	"io"
+	"regexp"
 
+	"github.com/jae2274/Careerhub-SkillScanner/careerhub/scanner/regexp_utils"
 	"github.com/jae2274/Careerhub-SkillScanner/careerhub/scanner/scanner_grpc"
 	"github.com/jae2274/goutils/enum"
+	"github.com/jae2274/goutils/terr"
 )
 
 type App struct {
@@ -57,6 +60,8 @@ func StartScanForNewSkills(grpcClient scanner_grpc.ScannerClient, scanTarget Sca
 		jobPosting, err := jobPostingStream.Recv()
 		if err == io.EOF {
 			break
+		} else if err != nil {
+			return err
 		}
 
 		alreadyExistedSkills := make(map[string]bool)
@@ -67,7 +72,7 @@ func StartScanForNewSkills(grpcClient scanner_grpc.ScannerClient, scanTarget Sca
 		additionalSkills := make([]string, 0)
 		for _, skillName := range skills.SkillNames {
 			if _, ok := alreadyExistedSkills[skillName]; !ok { //존재하지 않는다면 스캔
-				if checkSkillRequirement(jobPosting, skillName) {
+				if CheckSkillRequirement(jobPosting, skillName) {
 					additionalSkills = append(additionalSkills, skillName)
 				}
 			}
@@ -85,29 +90,43 @@ func StartScanForNewSkills(grpcClient scanner_grpc.ScannerClient, scanTarget Sca
 		}
 	}
 
-	_, err = sendRequestStream.CloseAndRecv()
+	response, err := sendRequestStream.CloseAndRecv()
+	if err != nil {
+		return err
+	}
+	if !response.Success {
+		return terr.New("Failed to set required skills")
+	}
+
+	err = jobPostingStream.CloseSend()
 	if err != nil {
 		return err
 	}
 
 	if isTargetSkill { //스킬 스캔이 목적인 경우 별도로 스킬의 스캔 완료를 알림
-		_, err = grpcClient.SetScanComplete(mainCtx, skills)
+		response, err = grpcClient.SetScanComplete(mainCtx, skills)
 		if err != nil {
 			return err
+		}
+		if !response.Success {
+			return terr.New("Failed to set required skills")
 		}
 	}
 
 	return nil
 }
 
-func checkSkillRequirement(jobPosting *scanner_grpc.JobPostingInfo, skillName string) bool {
-	// for _, requiredSkill := range jobPosting.RequiredSkill {
-	// 	if requiredSkill == skillName {
-	// 		return true
-	// 	}
-	// }
+func CheckSkillRequirement(jobPosting *scanner_grpc.JobPostingInfo, skillName string) bool {
+	regexString := regexp_utils.InitializeOnlyWordRegex(skillName)
+	if regexp.MustCompile(regexString).MatchString(jobPosting.Title) {
+		return true
+	}
+	if regexp.MustCompile(regexString).MatchString(jobPosting.Qualifications) {
+		return true
+	}
+	if regexp.MustCompile(regexString).MatchString(jobPosting.Preferred) {
+		return true
+	}
 
-	//TODO: Implement the logic to check if the skill is required for the job posting
 	return false
-
 }
