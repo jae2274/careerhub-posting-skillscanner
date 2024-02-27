@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package careerhub.scanner.scanner_grpc;
-option go_package = "careerhub/scanner/scanner_grpc";
+package careerhub.processor.scanner_grpc;
+option go_package = "careerhub/processor/scanner_grpc";
 
-service Scanner{
+service ScannerGrpc{
     rpc GetJobPostings(ScanComplete) returns (stream JobPostingInfo);
 	rpc GetSkills(ScanComplete) returns (Skills);
 	rpc SetRequiredSkills(stream SetRequiredSkillsRequest) returns (BoolResponse);

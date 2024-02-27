@@ -12,10 +12,10 @@ import (
 )
 
 type App struct {
-	grpcClient scanner_grpc.ScannerClient
+	grpcClient scanner_grpc.ScannerGrpcClient
 }
 
-func NewApp(grpcClient scanner_grpc.ScannerClient) *App {
+func NewApp(grpcClient scanner_grpc.ScannerGrpcClient) *App {
 	return &App{grpcClient: grpcClient}
 }
 
@@ -35,7 +35,7 @@ func (ScanTargetValues) Values() []string {
 	}
 }
 
-func StartScanForNewSkills(grpcClient scanner_grpc.ScannerClient, scanTarget ScanTarget) error {
+func StartScanForNewSkills(grpcClient scanner_grpc.ScannerGrpcClient, scanTarget ScanTarget) error {
 
 	isTargetSkill := scanTarget == Skill
 	isTargetJobPosting := scanTarget == JobPosting

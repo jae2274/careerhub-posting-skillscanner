@@ -18,30 +18,30 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// ScannerClient is the client API for Scanner service.
+// ScannerGrpcClient is the client API for ScannerGrpc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ScannerClient interface {
-	GetJobPostings(ctx context.Context, in *ScanComplete, opts ...grpc.CallOption) (Scanner_GetJobPostingsClient, error)
+type ScannerGrpcClient interface {
+	GetJobPostings(ctx context.Context, in *ScanComplete, opts ...grpc.CallOption) (ScannerGrpc_GetJobPostingsClient, error)
 	GetSkills(ctx context.Context, in *ScanComplete, opts ...grpc.CallOption) (*Skills, error)
-	SetRequiredSkills(ctx context.Context, opts ...grpc.CallOption) (Scanner_SetRequiredSkillsClient, error)
+	SetRequiredSkills(ctx context.Context, opts ...grpc.CallOption) (ScannerGrpc_SetRequiredSkillsClient, error)
 	SetScanComplete(ctx context.Context, in *Skills, opts ...grpc.CallOption) (*BoolResponse, error)
 }
 
-type scannerClient struct {
+type scannerGrpcClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewScannerClient(cc grpc.ClientConnInterface) ScannerClient {
-	return &scannerClient{cc}
+func NewScannerGrpcClient(cc grpc.ClientConnInterface) ScannerGrpcClient {
+	return &scannerGrpcClient{cc}
 }
 
-func (c *scannerClient) GetJobPostings(ctx context.Context, in *ScanComplete, opts ...grpc.CallOption) (Scanner_GetJobPostingsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Scanner_ServiceDesc.Streams[0], "/careerhub.scanner.scanner_grpc.Scanner/GetJobPostings", opts...)
+func (c *scannerGrpcClient) GetJobPostings(ctx context.Context, in *ScanComplete, opts ...grpc.CallOption) (ScannerGrpc_GetJobPostingsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ScannerGrpc_ServiceDesc.Streams[0], "/careerhub.processor.scanner_grpc.ScannerGrpc/GetJobPostings", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &scannerGetJobPostingsClient{stream}
+	x := &scannerGrpcGetJobPostingsClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -51,16 +51,16 @@ func (c *scannerClient) GetJobPostings(ctx context.Context, in *ScanComplete, op
 	return x, nil
 }
 
-type Scanner_GetJobPostingsClient interface {
+type ScannerGrpc_GetJobPostingsClient interface {
 	Recv() (*JobPostingInfo, error)
 	grpc.ClientStream
 }
 
-type scannerGetJobPostingsClient struct {
+type scannerGrpcGetJobPostingsClient struct {
 	grpc.ClientStream
 }
 
-func (x *scannerGetJobPostingsClient) Recv() (*JobPostingInfo, error) {
+func (x *scannerGrpcGetJobPostingsClient) Recv() (*JobPostingInfo, error) {
 	m := new(JobPostingInfo)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -68,39 +68,39 @@ func (x *scannerGetJobPostingsClient) Recv() (*JobPostingInfo, error) {
 	return m, nil
 }
 
-func (c *scannerClient) GetSkills(ctx context.Context, in *ScanComplete, opts ...grpc.CallOption) (*Skills, error) {
+func (c *scannerGrpcClient) GetSkills(ctx context.Context, in *ScanComplete, opts ...grpc.CallOption) (*Skills, error) {
 	out := new(Skills)
-	err := c.cc.Invoke(ctx, "/careerhub.scanner.scanner_grpc.Scanner/GetSkills", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/careerhub.processor.scanner_grpc.ScannerGrpc/GetSkills", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *scannerClient) SetRequiredSkills(ctx context.Context, opts ...grpc.CallOption) (Scanner_SetRequiredSkillsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Scanner_ServiceDesc.Streams[1], "/careerhub.scanner.scanner_grpc.Scanner/SetRequiredSkills", opts...)
+func (c *scannerGrpcClient) SetRequiredSkills(ctx context.Context, opts ...grpc.CallOption) (ScannerGrpc_SetRequiredSkillsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ScannerGrpc_ServiceDesc.Streams[1], "/careerhub.processor.scanner_grpc.ScannerGrpc/SetRequiredSkills", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &scannerSetRequiredSkillsClient{stream}
+	x := &scannerGrpcSetRequiredSkillsClient{stream}
 	return x, nil
 }
 
-type Scanner_SetRequiredSkillsClient interface {
+type ScannerGrpc_SetRequiredSkillsClient interface {
 	Send(*SetRequiredSkillsRequest) error
 	CloseAndRecv() (*BoolResponse, error)
 	grpc.ClientStream
 }
 
-type scannerSetRequiredSkillsClient struct {
+type scannerGrpcSetRequiredSkillsClient struct {
 	grpc.ClientStream
 }
 
-func (x *scannerSetRequiredSkillsClient) Send(m *SetRequiredSkillsRequest) error {
+func (x *scannerGrpcSetRequiredSkillsClient) Send(m *SetRequiredSkillsRequest) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *scannerSetRequiredSkillsClient) CloseAndRecv() (*BoolResponse, error) {
+func (x *scannerGrpcSetRequiredSkillsClient) CloseAndRecv() (*BoolResponse, error) {
 	if err := x.ClientStream.CloseSend(); err != nil {
 		return nil, err
 	}
@@ -111,113 +111,113 @@ func (x *scannerSetRequiredSkillsClient) CloseAndRecv() (*BoolResponse, error) {
 	return m, nil
 }
 
-func (c *scannerClient) SetScanComplete(ctx context.Context, in *Skills, opts ...grpc.CallOption) (*BoolResponse, error) {
+func (c *scannerGrpcClient) SetScanComplete(ctx context.Context, in *Skills, opts ...grpc.CallOption) (*BoolResponse, error) {
 	out := new(BoolResponse)
-	err := c.cc.Invoke(ctx, "/careerhub.scanner.scanner_grpc.Scanner/SetScanComplete", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/careerhub.processor.scanner_grpc.ScannerGrpc/SetScanComplete", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ScannerServer is the server API for Scanner service.
-// All implementations must embed UnimplementedScannerServer
+// ScannerGrpcServer is the server API for ScannerGrpc service.
+// All implementations must embed UnimplementedScannerGrpcServer
 // for forward compatibility
-type ScannerServer interface {
-	GetJobPostings(*ScanComplete, Scanner_GetJobPostingsServer) error
+type ScannerGrpcServer interface {
+	GetJobPostings(*ScanComplete, ScannerGrpc_GetJobPostingsServer) error
 	GetSkills(context.Context, *ScanComplete) (*Skills, error)
-	SetRequiredSkills(Scanner_SetRequiredSkillsServer) error
+	SetRequiredSkills(ScannerGrpc_SetRequiredSkillsServer) error
 	SetScanComplete(context.Context, *Skills) (*BoolResponse, error)
-	mustEmbedUnimplementedScannerServer()
+	mustEmbedUnimplementedScannerGrpcServer()
 }
 
-// UnimplementedScannerServer must be embedded to have forward compatible implementations.
-type UnimplementedScannerServer struct {
+// UnimplementedScannerGrpcServer must be embedded to have forward compatible implementations.
+type UnimplementedScannerGrpcServer struct {
 }
 
-func (UnimplementedScannerServer) GetJobPostings(*ScanComplete, Scanner_GetJobPostingsServer) error {
+func (UnimplementedScannerGrpcServer) GetJobPostings(*ScanComplete, ScannerGrpc_GetJobPostingsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetJobPostings not implemented")
 }
-func (UnimplementedScannerServer) GetSkills(context.Context, *ScanComplete) (*Skills, error) {
+func (UnimplementedScannerGrpcServer) GetSkills(context.Context, *ScanComplete) (*Skills, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSkills not implemented")
 }
-func (UnimplementedScannerServer) SetRequiredSkills(Scanner_SetRequiredSkillsServer) error {
+func (UnimplementedScannerGrpcServer) SetRequiredSkills(ScannerGrpc_SetRequiredSkillsServer) error {
 	return status.Errorf(codes.Unimplemented, "method SetRequiredSkills not implemented")
 }
-func (UnimplementedScannerServer) SetScanComplete(context.Context, *Skills) (*BoolResponse, error) {
+func (UnimplementedScannerGrpcServer) SetScanComplete(context.Context, *Skills) (*BoolResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetScanComplete not implemented")
 }
-func (UnimplementedScannerServer) mustEmbedUnimplementedScannerServer() {}
+func (UnimplementedScannerGrpcServer) mustEmbedUnimplementedScannerGrpcServer() {}
 
-// UnsafeScannerServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ScannerServer will
+// UnsafeScannerGrpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ScannerGrpcServer will
 // result in compilation errors.
-type UnsafeScannerServer interface {
-	mustEmbedUnimplementedScannerServer()
+type UnsafeScannerGrpcServer interface {
+	mustEmbedUnimplementedScannerGrpcServer()
 }
 
-func RegisterScannerServer(s grpc.ServiceRegistrar, srv ScannerServer) {
-	s.RegisterService(&Scanner_ServiceDesc, srv)
+func RegisterScannerGrpcServer(s grpc.ServiceRegistrar, srv ScannerGrpcServer) {
+	s.RegisterService(&ScannerGrpc_ServiceDesc, srv)
 }
 
-func _Scanner_GetJobPostings_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _ScannerGrpc_GetJobPostings_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(ScanComplete)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(ScannerServer).GetJobPostings(m, &scannerGetJobPostingsServer{stream})
+	return srv.(ScannerGrpcServer).GetJobPostings(m, &scannerGrpcGetJobPostingsServer{stream})
 }
 
-type Scanner_GetJobPostingsServer interface {
+type ScannerGrpc_GetJobPostingsServer interface {
 	Send(*JobPostingInfo) error
 	grpc.ServerStream
 }
 
-type scannerGetJobPostingsServer struct {
+type scannerGrpcGetJobPostingsServer struct {
 	grpc.ServerStream
 }
 
-func (x *scannerGetJobPostingsServer) Send(m *JobPostingInfo) error {
+func (x *scannerGrpcGetJobPostingsServer) Send(m *JobPostingInfo) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _Scanner_GetSkills_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ScannerGrpc_GetSkills_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ScanComplete)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ScannerServer).GetSkills(ctx, in)
+		return srv.(ScannerGrpcServer).GetSkills(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/careerhub.scanner.scanner_grpc.Scanner/GetSkills",
+		FullMethod: "/careerhub.processor.scanner_grpc.ScannerGrpc/GetSkills",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ScannerServer).GetSkills(ctx, req.(*ScanComplete))
+		return srv.(ScannerGrpcServer).GetSkills(ctx, req.(*ScanComplete))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Scanner_SetRequiredSkills_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ScannerServer).SetRequiredSkills(&scannerSetRequiredSkillsServer{stream})
+func _ScannerGrpc_SetRequiredSkills_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ScannerGrpcServer).SetRequiredSkills(&scannerGrpcSetRequiredSkillsServer{stream})
 }
 
-type Scanner_SetRequiredSkillsServer interface {
+type ScannerGrpc_SetRequiredSkillsServer interface {
 	SendAndClose(*BoolResponse) error
 	Recv() (*SetRequiredSkillsRequest, error)
 	grpc.ServerStream
 }
 
-type scannerSetRequiredSkillsServer struct {
+type scannerGrpcSetRequiredSkillsServer struct {
 	grpc.ServerStream
 }
 
-func (x *scannerSetRequiredSkillsServer) SendAndClose(m *BoolResponse) error {
+func (x *scannerGrpcSetRequiredSkillsServer) SendAndClose(m *BoolResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *scannerSetRequiredSkillsServer) Recv() (*SetRequiredSkillsRequest, error) {
+func (x *scannerGrpcSetRequiredSkillsServer) Recv() (*SetRequiredSkillsRequest, error) {
 	m := new(SetRequiredSkillsRequest)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -225,49 +225,49 @@ func (x *scannerSetRequiredSkillsServer) Recv() (*SetRequiredSkillsRequest, erro
 	return m, nil
 }
 
-func _Scanner_SetScanComplete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ScannerGrpc_SetScanComplete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Skills)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ScannerServer).SetScanComplete(ctx, in)
+		return srv.(ScannerGrpcServer).SetScanComplete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/careerhub.scanner.scanner_grpc.Scanner/SetScanComplete",
+		FullMethod: "/careerhub.processor.scanner_grpc.ScannerGrpc/SetScanComplete",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ScannerServer).SetScanComplete(ctx, req.(*Skills))
+		return srv.(ScannerGrpcServer).SetScanComplete(ctx, req.(*Skills))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Scanner_ServiceDesc is the grpc.ServiceDesc for Scanner service.
+// ScannerGrpc_ServiceDesc is the grpc.ServiceDesc for ScannerGrpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Scanner_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "careerhub.scanner.scanner_grpc.Scanner",
-	HandlerType: (*ScannerServer)(nil),
+var ScannerGrpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "careerhub.processor.scanner_grpc.ScannerGrpc",
+	HandlerType: (*ScannerGrpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetSkills",
-			Handler:    _Scanner_GetSkills_Handler,
+			Handler:    _ScannerGrpc_GetSkills_Handler,
 		},
 		{
 			MethodName: "SetScanComplete",
-			Handler:    _Scanner_SetScanComplete_Handler,
+			Handler:    _ScannerGrpc_SetScanComplete_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "GetJobPostings",
-			Handler:       _Scanner_GetJobPostings_Handler,
+			Handler:       _ScannerGrpc_GetJobPostings_Handler,
 			ServerStreams: true,
 		},
 		{
 			StreamName:    "SetRequiredSkills",
-			Handler:       _Scanner_SetRequiredSkills_Handler,
+			Handler:       _ScannerGrpc_SetRequiredSkills_Handler,
 			ClientStreams: true,
 		},
 	},
