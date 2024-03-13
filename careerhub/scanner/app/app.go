@@ -8,6 +8,7 @@ import (
 	"github.com/jae2274/Careerhub-SkillScanner/careerhub/scanner/regexp_utils"
 	"github.com/jae2274/Careerhub-SkillScanner/careerhub/scanner/scanner_grpc"
 	"github.com/jae2274/goutils/enum"
+	"github.com/jae2274/goutils/ptr"
 	"github.com/jae2274/goutils/terr"
 )
 
@@ -65,11 +66,11 @@ func StartScanForNewSkills(grpcClient scanner_grpc.ScannerGrpcClient, scanTarget
 			alreadyExistedSkills[requiredSkill] = true
 		}
 
-		additionalSkills := make([]string, 0)
+		additionalSkills := make([]*scanner_grpc.RequiredSkill, 0)
 		for _, skillName := range skills.SkillNames {
 			if _, ok := alreadyExistedSkills[skillName]; !ok { //존재하지 않는다면 스캔
-				if CheckSkillRequirement(jobPosting, skillName) {
-					additionalSkills = append(additionalSkills, skillName)
+				if skillFrom := CheckSkillRequirement(jobPosting, skillName); skillFrom != nil {
+					additionalSkills = append(additionalSkills, &scanner_grpc.RequiredSkill{SkillName: skillName, SkillFrom: string(*skillFrom)})
 				}
 			}
 		}
@@ -110,17 +111,20 @@ func StartScanForNewSkills(grpcClient scanner_grpc.ScannerGrpcClient, scanTarget
 	return nil
 }
 
-func CheckSkillRequirement(jobPosting *scanner_grpc.JobPostingInfo, skillName string) bool {
+func CheckSkillRequirement(jobPosting *scanner_grpc.JobPostingInfo, skillName string) *SkillFrom {
 	regexString := regexp_utils.InitializeOnlyWordRegex(skillName)
 	if regexp.MustCompile(regexString).MatchString(jobPosting.Title) {
-		return true
+		return ptr.P(FromTitle)
+	}
+	if regexp.MustCompile(regexString).MatchString(jobPosting.MainTask) {
+		return ptr.P(FromMainTask)
 	}
 	if regexp.MustCompile(regexString).MatchString(jobPosting.Qualifications) {
-		return true
+		return ptr.P(FromQualifications)
 	}
 	if regexp.MustCompile(regexString).MatchString(jobPosting.Preferred) {
-		return true
+		return ptr.P(FromPreferred)
 	}
 
-	return false
+	return nil
 }
