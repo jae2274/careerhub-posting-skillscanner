@@ -41,6 +41,6 @@ proto:
 ## test: runs all tests
 test:	
 	@echo "Testing..."
-	@env GRPC_ENDPOINT=${GRPC_ENDPOINT} POST_LOG_URL=${POST_LOG_URL} go test -p 1 -timeout 300s ./test/...
+	@env GRPC_ENDPOINT=${GRPC_ENDPOINT} POST_LOG_URL=${POST_LOG_URL} go test -p 1 -timeout 300s ./...
 	
 
