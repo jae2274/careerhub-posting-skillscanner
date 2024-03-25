@@ -1,5 +1,5 @@
 BINARY_NAME=myapp
-CODE_DIR=./careerhub/scanner
+CODE_DIR=./careerhub/posting_service/skillscanner
 
 include test.env
 
@@ -36,7 +36,7 @@ restart: stop start
 
 proto:
 	@export PATH="$PATH:$(go env GOPATH)/bin"
-	@protoc careerhub/scanner/scanner_grpc/*.proto  --go_out=. --go-grpc_out=. --go-grpc_opt=paths=source_relative --go_opt=paths=source_relative  --proto_path=.
+	@protoc careerhub/posting_service/skillscanner/scanner_grpc/*.proto  --go_out=. --go-grpc_out=. --go-grpc_opt=paths=source_relative --go_opt=paths=source_relative  --proto_path=.
 
 ## test: runs all tests
 test:	

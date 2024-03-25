@@ -3,8 +3,8 @@ package app_test
 import (
 	"testing"
 
-	"github.com/jae2274/Careerhub-SkillScanner/careerhub/scanner/app"
-	"github.com/jae2274/Careerhub-SkillScanner/careerhub/scanner/scanner_grpc"
+	"github.com/jae2274/careerhub-posting-skillscanner/careerhub/posting_service/skillscanner/app"
+	"github.com/jae2274/careerhub-posting-skillscanner/careerhub/posting_service/skillscanner/scanner_grpc"
 	"github.com/stretchr/testify/require"
 )
 

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.25.1
-// source: careerhub/scanner/scanner_grpc/grpc.proto
+// source: careerhub/posting_service/skillscanner/scanner_grpc/grpc.proto
 
 package scanner_grpc
 
@@ -271,5 +271,5 @@ var ScannerGrpc_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "careerhub/scanner/scanner_grpc/grpc.proto",
+	Metadata: "careerhub/posting_service/skillscanner/scanner_grpc/grpc.proto",
 }

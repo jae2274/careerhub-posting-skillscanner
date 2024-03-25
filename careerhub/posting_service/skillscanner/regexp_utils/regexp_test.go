@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/jae2274/Careerhub-SkillScanner/careerhub/scanner/regexp_utils"
+	"github.com/jae2274/careerhub-posting-skillscanner/careerhub/posting_service/skillscanner/regexp_utils"
 	"github.com/stretchr/testify/require"
 )
 

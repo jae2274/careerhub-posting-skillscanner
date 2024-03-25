@@ -1,4 +1,4 @@
-module github.com/jae2274/Careerhub-SkillScanner
+module github.com/jae2274/careerhub-posting-skillscanner
 
 go 1.21.4
 

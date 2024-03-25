@@ -5,8 +5,8 @@ import (
 	"io"
 	"regexp"
 
-	"github.com/jae2274/Careerhub-SkillScanner/careerhub/scanner/regexp_utils"
-	"github.com/jae2274/Careerhub-SkillScanner/careerhub/scanner/scanner_grpc"
+	"github.com/jae2274/careerhub-posting-skillscanner/careerhub/posting_service/skillscanner/regexp_utils"
+	"github.com/jae2274/careerhub-posting-skillscanner/careerhub/posting_service/skillscanner/scanner_grpc"
 	"github.com/jae2274/goutils/enum"
 	"github.com/jae2274/goutils/ptr"
 	"github.com/jae2274/goutils/terr"
