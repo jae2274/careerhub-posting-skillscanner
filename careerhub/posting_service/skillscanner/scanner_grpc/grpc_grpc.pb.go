@@ -37,7 +37,7 @@ func NewScannerGrpcClient(cc grpc.ClientConnInterface) ScannerGrpcClient {
 }
 
 func (c *scannerGrpcClient) GetJobPostings(ctx context.Context, in *ScanComplete, opts ...grpc.CallOption) (ScannerGrpc_GetJobPostingsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ScannerGrpc_ServiceDesc.Streams[0], "/careerhub.processor.scanner_grpc.ScannerGrpc/GetJobPostings", opts...)
+	stream, err := c.cc.NewStream(ctx, &ScannerGrpc_ServiceDesc.Streams[0], "/careerhub.posting_service.scanner_grpc.ScannerGrpc/GetJobPostings", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (x *scannerGrpcGetJobPostingsClient) Recv() (*JobPostingInfo, error) {
 
 func (c *scannerGrpcClient) GetSkills(ctx context.Context, in *ScanComplete, opts ...grpc.CallOption) (*Skills, error) {
 	out := new(Skills)
-	err := c.cc.Invoke(ctx, "/careerhub.processor.scanner_grpc.ScannerGrpc/GetSkills", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/careerhub.posting_service.scanner_grpc.ScannerGrpc/GetSkills", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func (c *scannerGrpcClient) GetSkills(ctx context.Context, in *ScanComplete, opt
 }
 
 func (c *scannerGrpcClient) SetRequiredSkills(ctx context.Context, opts ...grpc.CallOption) (ScannerGrpc_SetRequiredSkillsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ScannerGrpc_ServiceDesc.Streams[1], "/careerhub.processor.scanner_grpc.ScannerGrpc/SetRequiredSkills", opts...)
+	stream, err := c.cc.NewStream(ctx, &ScannerGrpc_ServiceDesc.Streams[1], "/careerhub.posting_service.scanner_grpc.ScannerGrpc/SetRequiredSkills", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +113,7 @@ func (x *scannerGrpcSetRequiredSkillsClient) CloseAndRecv() (*BoolResponse, erro
 
 func (c *scannerGrpcClient) SetScanComplete(ctx context.Context, in *Skills, opts ...grpc.CallOption) (*BoolResponse, error) {
 	out := new(BoolResponse)
-	err := c.cc.Invoke(ctx, "/careerhub.processor.scanner_grpc.ScannerGrpc/SetScanComplete", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/careerhub.posting_service.scanner_grpc.ScannerGrpc/SetScanComplete", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -191,7 +191,7 @@ func _ScannerGrpc_GetSkills_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/careerhub.processor.scanner_grpc.ScannerGrpc/GetSkills",
+		FullMethod: "/careerhub.posting_service.scanner_grpc.ScannerGrpc/GetSkills",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ScannerGrpcServer).GetSkills(ctx, req.(*ScanComplete))
@@ -235,7 +235,7 @@ func _ScannerGrpc_SetScanComplete_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/careerhub.processor.scanner_grpc.ScannerGrpc/SetScanComplete",
+		FullMethod: "/careerhub.posting_service.scanner_grpc.ScannerGrpc/SetScanComplete",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ScannerGrpcServer).SetScanComplete(ctx, req.(*Skills))
@@ -247,7 +247,7 @@ func _ScannerGrpc_SetScanComplete_Handler(srv interface{}, ctx context.Context, 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ScannerGrpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "careerhub.processor.scanner_grpc.ScannerGrpc",
+	ServiceName: "careerhub.posting_service.scanner_grpc.ScannerGrpc",
 	HandlerType: (*ScannerGrpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
