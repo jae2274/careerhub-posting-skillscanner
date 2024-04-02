@@ -12,7 +12,7 @@ build:
 ## run: builds and runs the application
 run: build
 	@echo "Starting..."
-	@env GRPC_ENDPOINT=${GRPC_ENDPOINT} POST_LOG_URL=${POST_LOG_URL} ./${BINARY_NAME} 
+	@env GRPC_ENDPOINT=${GRPC_ENDPOINT} ./${BINARY_NAME} 
 	@echo "Started!"
 
 ## clean: runs go clean and deletes binaries
@@ -41,6 +41,6 @@ proto:
 ## test: runs all tests
 test:	
 	@echo "Testing..."
-	@env GRPC_ENDPOINT=${GRPC_ENDPOINT} POST_LOG_URL=${POST_LOG_URL} go test -p 1 -timeout 300s ./...
+	@env GRPC_ENDPOINT=${GRPC_ENDPOINT} go test -p 1 -timeout 300s ./...
 	
 

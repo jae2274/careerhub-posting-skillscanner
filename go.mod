@@ -5,7 +5,7 @@ go 1.21.4
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/jae2274/goutils v1.0.24 // indirect
+	github.com/jae2274/goutils v1.0.25 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	golang.org/x/net v0.20.0 // indirect

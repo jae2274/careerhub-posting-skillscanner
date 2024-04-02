@@ -6,6 +6,8 @@ github.com/golang/protobuf v1.5.3/go.mod h1:XVQd3VNwM+JqD3oG2Ue2ip4fOMUkwXdXDdiu
 github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/jae2274/goutils v1.0.24 h1:2kUcJ5X14Pl6ScSo2Um2QBYCUBVPdOitV32PSZXwg6o=
 github.com/jae2274/goutils v1.0.24/go.mod h1:Rnz4XUe11MPCFgDCkEdd5yaOkRFu/DyagvuD4nkwolY=
+github.com/jae2274/goutils v1.0.25 h1:NWe6JwAENG9lge3I+Op+AJIzMJYkz1vLpvYrzgRzEHA=
+github.com/jae2274/goutils v1.0.25/go.mod h1:Rnz4XUe11MPCFgDCkEdd5yaOkRFu/DyagvuD4nkwolY=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
