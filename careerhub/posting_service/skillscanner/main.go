@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	appName = "skill-scanner"
+	appName = "posting-skillscanner"
 	service = "careerhub"
 
 	ctxKeyTraceID = "trace_id"
